@@ -63,7 +63,7 @@ fn scan_file(decoder: &mut Quirc, opts: &Opts, path: &str, info: &mut ResultInfo
 		Err(e) => {
 			println!("# {}: {e}, no image", path.display());
 			return 42;
-		},
+		}
 	};
 
 	info.load_time = start.elapsed().as_millis();

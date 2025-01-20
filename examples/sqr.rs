@@ -63,7 +63,7 @@ fn scan_file(decoder: &mut Quirc, opts: &Opts, path: &str, info: &mut ResultInfo
 		Err(e) => {
 			println!("# {}: {e}, no image", path.display());
 			return 42;
-		},
+		}
 	};
 
 	info.load_time = start.elapsed().as_millis();
@@ -130,7 +130,7 @@ fn run_tests(opts: &Opts, args: &[String]) -> i32 {
 	let mut decoder = Quirc::new();
 	for path in args {
 		let mut info: ResultInfo = ResultInfo { file_count: 0, id_count: 0, decode_count: 0, load_time: 0, identify_time: 0, total_time: 0 };
-		if scan_file(&mut decoder, &opts, path, &mut info) > 0 {
+		if scan_file(&mut decoder, opts, path, &mut info) > 0 {
 			add_result(&mut sum, &mut info);
 			count += 1
 		}
@@ -144,7 +144,7 @@ fn run_tests(opts: &Opts, args: &[String]) -> i32 {
 
 fn dump_cells(code: &Code) {
 	let code = *code;
-	print!("{} cells, corners:", code.size);
+	print!("- {} cells, corners:", code.size);
 	for u in 0..4 {
 		print!(" ({},{})", code.corners[u].x, code.corners[u].y);
 	}
@@ -171,7 +171,10 @@ fn dump_cells(code: &Code) {
 }
 
 fn help() {
-	println!("sqr {}\nUsage:  sqr [-h|--help] | [-v|--verbose] <image>...", version());
+	println!("sqr {}\nUsage:  sqr [-h|--help] | [-v|--verbose] [-d|--dump] <image>...", version());
+	println!("    -h/--help       Show this help text");
+	println!("    -v/--verbose    Show processing information");
+	println!("    -d/--dump       Dump each identified QR code to the terminal");
 	std::process::exit(0);
 }
 
@@ -180,10 +183,28 @@ fn main() {
 	let args: Vec<String> = std::env::args()
 		.skip(1)
 		.filter(|e| {
-			if e == "-v" || e == "--verbose" {opts.verbose = true; false} else {true}
+			if e == "-v" || e == "--verbose" {
+				opts.verbose = true;
+				false
+			} else {
+				true
+			}
 		})
 		.filter(|e| {
-			if e == "-h" || e == "--help" {help(); false} else {true}
+			if e == "-d" || e == "--dump" {
+				opts.cell_dump = true;
+				false
+			} else {
+				true
+			}
+		})
+		.filter(|e| {
+			if e == "-h" || e == "--help" {
+				help();
+				false
+			} else {
+				true
+			}
 		})
 		.collect();
 	if opts.verbose {

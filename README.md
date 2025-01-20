@@ -6,7 +6,7 @@
 [![CI](https://github.com/pepa65/sqr/workflows/CI/badge.svg)](https://github.com/pepa65/sqr/actions)
 [![License](https://img.shields.io/github/license/pepa65/sqr)](https://github.com/pepa65/sqr/blob/main/LICENSE)
 
-# sqr 0.11.0
+# sqr 0.12.0
 **Scan QR with Quircs**
 
 * After: <https://github.com/dignifiedquire/quircs> which was ported from <https://github.com/dlbeer/quirc>
@@ -15,7 +15,7 @@
 ## Install
 ### Download and install static single-binary
 ```
-wget https://github.com/pepa65/sqr/releases/download/0.11.0/sqr
+wget https://github.com/pepa65/sqr/releases/download/0.12.0/sqr
 sudo mv sqr /usr/local/bin
 sudo chown root:root /usr/local/bin/sqr
 sudo chmod +x /usr/local/bin/sqr
@@ -36,6 +36,9 @@ The binary will be at `target/x86_64-unknown-linux-musl/release/sqr`
 
 ## Usage
 ```
-sqr 0.11.0
-Usage:  sqr [-h|--help] | [-v|--verbose] <image>...
+sqr 0.12.0
+Usage:  sqr [-h|--help] | [-v|--verbose] [-d|--dump] <image>...
+    -h/--help       Show this help text
+    -v/--verbose    Show processing information
+    -d/--dump       Dump each identified QR code to the terminal
 ```

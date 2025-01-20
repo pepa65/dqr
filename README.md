@@ -1,22 +1,24 @@
 <!--
-[![Crate](https://img.shields.io/crates/v/quircs.svg?style=flat-square)](https://crates.io/crates/quircs)
-[![Downloads](https://img.shields.io/crates/d/quircs.svg?style=flat-square)](https://crates.io/crates/quircs)
-[![Docs](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)](https://docs.rs/quircs)
-[![CI](https://github.com/dignifiedquire/quircs/workflows/CI/badge.svg)](https://github.com/dignifiedquire/quircs/actions)
--->
-#rqr 0.10.3
-**QR Scanner with Quircs**
+[![Crate](https://img.shields.io/crates/v/quircs.svg?style=flat-square)](https://crates.io/crates/sqc)
+[![Downloads](https://img.shields.io/crates/d/quircs.svg?style=flat-square)](https://crates.io/crates/sqr)
+[![Docs](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)](https://docs.rs/sqr)-->
+[![Dependencies](https://deps.rs/repo/github/pepa65/sqr/status.svg)](https://deps.rs/repo/github/pepa65/sqr)
+[![CI](https://github.com/pepa65/sqr/workflows/CI/badge.svg)](https://github.com/pepa65/sqr/actions)
+[![License](https://img.shields.io/github/license/pepa65/sqr)](https://github.com/pepa65/sqr/blob/main/LICENSE)
+
+# sqr 0.10.3
+**Scan QR with Quircs**
 
 * After: <https://github.com/dignifiedquire/quircs> which was ported from <https://github.com/dlbeer/quirc>
-* 
+* Repo: <https://github.com/pepa65/sqr>
 
 ## Install
 ### Download and install static single-binary
 ```
-wget https://github.com/pepa65/rqr/releases/download/0.10.3/rqr
-sudo mv rqr /usr/local/bin
-sudo chown root:root /usr/local/bin/rqr
-sudo chmod +x /usr/local/bin/rqr
+wget https://github.com/pepa65/sqr/releases/download/0.10.3/sqr
+sudo mv sqr /usr/local/bin
+sudo chown root:root /usr/local/bin/sqr
+sudo chmod +x /usr/local/bin/sqr
 ```
 
 ## Install with cargo
@@ -24,14 +26,14 @@ If not installed yet, install a **Rust toolchain**, see <https://www.rust-lang.o
 
 ### Static build for Linux (avoiding GLIBC incompatibilities)
 ```
-git clone https://github.com/pepa65/rqr
-cd rqr
+git clone https://github.com/pepa65/sqr
+cd sqr
 rustup target add x86_64-unknown-linux-musl
 cargo rel  # Alias defined in .cargo/config.toml
 ```
 
-The binary will be at `target/x86_64-unknown-linux-musl/release/rqr`
+The binary will be at `target/x86_64-unknown-linux-musl/release/sqr`
 
 ## Usage
-`rqr <path-to-image>`
+`sqr <path-to-image>`
 

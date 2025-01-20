@@ -1,9 +1,9 @@
 [package]
-name = "rqr"
+name = "sqr"
 version = "0.10.3"
 edition = "2021"
 authors = ["dignifiedquire <me@dignifiedquire.com>", "github.com/pepa65"]
-description = "Decode QR with Quircs"
+description = "Scan QR with Quircs"
 repository = "https://github.com/pepa65/rqr"
 keywords = ["qr", "scanner", "decode", "cli"]
 documentation = "https://docs.rs/quircs/"

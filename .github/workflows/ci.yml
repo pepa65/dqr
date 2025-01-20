@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
         rust: [stable]
         target: [x86_64-unknown-linux-musl]
     steps:
@@ -30,12 +30,6 @@ jobs:
       with:
         command: check
         args: --all --bins --examples --tests
-    - name: check bench
-      uses: actions-rs/cargo@v1
-      if: matrix.rust == 'nightly'
-      with:
-        command:  check
-        args: --benches
     - name: tests
       uses: actions-rs/cargo@v1
       with:

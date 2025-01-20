@@ -1,6 +1,6 @@
 [package]
 name = "sqr"
-version = "0.10.3"
+version = "0.11.0"
 edition = "2021"
 authors = ["dignifiedquire <me@dignifiedquire.com>", "github.com/pepa65"]
 description = "Scan QR with Quircs"

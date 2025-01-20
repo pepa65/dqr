@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 use std::time::Instant;
 
-use quircs::*;
+use rqr::*;
 
 #[derive(Debug, Clone)]
 struct ResultInfo {
@@ -19,6 +19,7 @@ struct Opts {
     cell_dump: bool,
 }
 
+/*
 fn print_result(name: &str, info: &mut ResultInfo) {
     print!("-------------------------------------------------------------------------------");
     print!(
@@ -49,6 +50,7 @@ fn print_result(name: &str, info: &mut ResultInfo) {
         );
     }
 }
+*/
 
 fn add_result(sum: &mut ResultInfo, inf: &mut ResultInfo) {
     sum.file_count += inf.file_count;
@@ -87,17 +89,17 @@ fn scan_file(decoder: &mut Quirc, opts: &Opts, path: &str, info: &mut ResultInfo
     }
 
     info.total_time = total_start.elapsed().as_millis();
-/*
-    println!(
-        "  {:<30}  {:<5} {:<5} {:<5} {:<5} {:<5}",
-        path.file_name().unwrap().to_string_lossy(),
-        info.load_time,
-        info.identify_time,
-        info.total_time,
-        info.id_count,
-        info.decode_count,
-    );
-*/
+    /*
+        println!(
+            "  {:<30}  {:<5} {:<5} {:<5} {:<5} {:<5}",
+            path.file_name().unwrap().to_string_lossy(),
+            info.load_time,
+            info.identify_time,
+            info.total_time,
+            info.id_count,
+            info.decode_count,
+        );
+    */
     if opts.cell_dump || opts.verbose {
         for code in &res {
             if opts.cell_dump {
@@ -108,12 +110,12 @@ fn scan_file(decoder: &mut Quirc, opts: &Opts, path: &str, info: &mut ResultInfo
             if opts.verbose {
                 match code.decode() {
                     Ok(data) => {
-//                        println!("\n  Decode successful:");
+                        //println!("\n  Decode successful:");
                         dump_data(&data);
-//                        println!();
+                        //println!();
                     }
                     Err(err) => {
-//                        println!("  ERROR: {err}\n");
+                        //println!("  ERROR: {err}\n");
                         println!("# ERROR: {err}");
                     }
                 }
@@ -140,14 +142,14 @@ fn run_tests(opts: &Opts, paths: &[String]) -> i32 {
     };
     let mut count: i32 = 0;
     let mut decoder = Quirc::new();
-/*
-    println!("  {:30}  {:^17} {:^11}", "", "Time (ms)", "Count");
-    println!(
-        "  {:30}  {:5} {:5} {:5} {:5} {:5}",
-        "Filename", "Load", "ID", "Total", "ID", "Dec",
-    );
-    println!("-------------------------------------------------------------------------------");
-*/
+    /*
+        println!("  {:30}  {:^17} {:^11}", "", "Time (ms)", "Count");
+        println!(
+            "  {:30}  {:5} {:5} {:5} {:5} {:5}",
+            "Filename", "Load", "ID", "Total", "ID", "Dec",
+        );
+        println!("-------------------------------------------------------------------------------");
+    */
     for path in paths {
         let mut info: ResultInfo = ResultInfo {
             file_count: 0,
@@ -163,21 +165,23 @@ fn run_tests(opts: &Opts, paths: &[String]) -> i32 {
         }
     }
     if count > 1 {
-        print_result("TOTAL", &mut sum);
+        //print_result("TOTAL", &mut sum);
     }
 
     0
 }
 
 fn dump_data(data: &Data) {
-//    println!("    Version: {}", data.version);
-//    println!("    ECC level: {:?}", data.ecc_level);
-//    println!("    Mask: {}", data.mask);
-//    println!("    Data type: {:?}", data.data_type);
-//    println!("    Length: {}", data.payload.len());
-//    println!("    Payload: {:?}", std::str::from_utf8(&data.payload));
+    /*
+        println!("    Version: {}", data.version);
+        println!("    ECC level: {:?}", data.ecc_level);
+        println!("    Mask: {}", data.mask);
+        println!("    Data type: {:?}", data.data_type);
+        println!("    Length: {}", data.payload.len());
+        println!("    Payload: {:?}", std::str::from_utf8(&data.payload));
+    */
     println!("{}", std::str::from_utf8(&data.payload).unwrap());
-//    println!("    ECI: {:?}", data.eci);
+    //println!("    ECI: {:?}", data.eci);
 }
 
 fn dump_cells(code: &Code) {
@@ -206,15 +210,12 @@ fn dump_cells(code: &Code) {
 
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
-
-//    println!("quircs test program");
-//    println!("Library version: {}\n", version());
-
+    //println!("quircs test program");
+    //println!("Library version: {}\n", version());
     let opts = Opts {
         verbose: true,
         cell_dump: false,
     };
-
     let res = run_tests(&opts, &args);
     std::process::exit(res);
 }

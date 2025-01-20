@@ -1,18 +1,14 @@
 [package]
-name = "quircs"
-authors = ["dignifiedquire <me@dignifiedquire.com>"]
-version = "0.10.2"
-license = "MIT"
-documentation = "https://docs.rs/qurics/"
-repository = "https://github.com/dignifiedquire/quircs"
-homepage = "https://github.com/dignifiedquire/quircs"
-description = "QR code detection and scanning. Pure Rust."
+name = "rqr"
+version = "0.10.3"
+edition = "2021"
+authors = ["dignifiedquire <me@dignifiedquire.com>", "github.com/pepa65"]
+description = "Decode QR with Quircs"
+repository = "https://github.com/pepa65/rqr"
+keywords = ["qr", "scanner", "decode", "cli"]
+documentation = "https://docs.rs/quircs/"
 readme = "README.md"
-edition = "2018"
-
-keywords = ["qr", "scanner"]
-categories = ["encoding", "multimedia"]
-exclude = ["tests"]
+license = "MIT"
 
 [lib]
 crate-type = ["staticlib", "rlib"]
@@ -20,9 +16,15 @@ crate-type = ["staticlib", "rlib"]
 [dependencies]
 num-derive = "0.4.0"
 num-traits = "0.2.11"
-thiserror = "1.0.19"
+thiserror = "2.0.11"
 
 [dev-dependencies]
 image = "0.25.2"
 
-
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+debug = 0

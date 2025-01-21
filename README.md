@@ -1,12 +1,11 @@
-<!--
 [![Crate](https://img.shields.io/crates/v/quircs.svg?style=flat-square)](https://crates.io/crates/sqr)
 [![Downloads](https://img.shields.io/crates/d/quircs.svg?style=flat-square)](https://crates.io/crates/sqr)
-[![Docs](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)](https://docs.rs/sqr)-->
+[![Docs](https://img.shields.io/badge/docs-sqr-blue.svg?style=flat-square)](https://docs.rs/crate/sqr/latest)
 [![Dependencies](https://deps.rs/repo/github/pepa65/sqr/status.svg)](https://deps.rs/repo/github/pepa65/sqr)
 [![CI](https://github.com/pepa65/sqr/workflows/CI/badge.svg)](https://github.com/pepa65/sqr/actions)
 [![License](https://img.shields.io/github/license/pepa65/sqr)](https://github.com/pepa65/sqr/blob/main/LICENSE)
 
-# sqr 0.12.3
+# sqr 0.12.4
 **Scan QR with Quircs**
 
 * After: <https://github.com/dignifiedquire/quircs> which was ported from <https://github.com/dlbeer/quirc>
@@ -15,7 +14,7 @@
 ## Install
 ### Download and install static single-binary
 ```
-wget https://github.com/pepa65/sqr/releases/download/0.12.3/sqr
+wget https://github.com/pepa65/sqr/releases/download/0.12.4/sqr
 sudo mv sqr /usr/local/bin
 sudo chown root:root /usr/local/bin/sqr
 sudo chmod +x /usr/local/bin/sqr
@@ -39,7 +38,7 @@ cargo rel  # Alias defined in .cargo/config.toml
 ```
 
 The binary will be at `target/x86_64-unknown-linux-musl/release/sqr`
-
+<!--
 ### Install with cargo-binstall
 Even without a full Rust toolchain, rust binaries can be installed with the static binary `cargo-binstall`:
 
@@ -54,11 +53,11 @@ sudo mv cargo-binstall /usr/local/bin/
 
 Only a linux-x86_64 (musl) binary available: `cargo-binstall sqr`
 
-It will be installed in `~/.cargo/bin/` which still needs to be added to `PATH`!
+It will be installed in `~/.cargo/bin/` which still needs to be added to `PATH`!-->
 
 ## Usage
 ```
-sqr 0.12.3
+sqr 0.12.4
 Usage:  sqr [-h|--help] | [-v|--verbose] [-d|--dump] <image>...
     -h/--help       Show this help text
     -v/--verbose    Show processing information

@@ -1,7 +1,7 @@
 [alias]
-rel = "build --release --example sqr"
-inst = "install --path . --example sqr"
-clip = "clippy --release --example sqr"
+rel = "build --release" #--example sqr"
+inst = "install --path ." #--example sqr"
+clip = "clippy --release" #--example sqr"
 tst = "test --release"
 pub = "publish"
 

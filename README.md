@@ -3,7 +3,7 @@
 [![Docs](https://img.shields.io/badge/docs-sqr-blue.svg?style=flat-square)](https://docs.rs/crate/sqr/latest)
 [![Dependencies](https://deps.rs/repo/github/pepa65/sqr/status.svg)](https://deps.rs/repo/github/pepa65/sqr)
 [![CI](https://github.com/pepa65/sqr/workflows/CI/badge.svg)](https://github.com/pepa65/sqr/actions)
-[![License](https://img.shields.io/github/license/pepa65/sqr)](https://github.com/pepa65/sqr/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/pepa65/sqr)](https://github.com/pepa65/sqr/blob/master/LICENSE)
 
 # sqr 0.12.4
 **Scan QR with Quircs**

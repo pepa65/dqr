@@ -1,6 +1,6 @@
 [package]
 name = "sqr"
-version = "0.12.2"
+version = "0.12.3"
 edition = "2021"
 authors = ["dignifiedquire <me@dignifiedquire.com>", "github.com/pepa65"]
 description = "Scan QR with Quircs"
@@ -22,8 +22,6 @@ crate-type = ["staticlib", "rlib"]
 num-derive = "0.4.0"
 num-traits = "0.2.11"
 thiserror = "2.0.11"
-
-[dev-dependencies]
 image = "0.25.2"
 
 [profile.release]

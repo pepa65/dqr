@@ -1,9 +1,9 @@
-[![Crate](https://img.shields.io/crates/v/quircs.svg?style=flat-square)](https://crates.io/crates/sqr)
-[![Downloads](https://img.shields.io/crates/d/quircs.svg?style=flat-square)](https://crates.io/crates/sqr)
+[![Crate](https://img.shields.io/crates/v/sqr.svg?style=flat-square)](https://crates.io/crates/sqr)
+[![Downloads](https://img.shields.io/crates/d/sqr.svg?style=flat-square)](https://crates.io/crates/sqr)
 [![Docs](https://img.shields.io/badge/docs-sqr-blue.svg?style=flat-square)](https://docs.rs/crate/sqr/latest)
 [![Dependencies](https://deps.rs/repo/github/pepa65/sqr/status.svg)](https://deps.rs/repo/github/pepa65/sqr)
 [![CI](https://github.com/pepa65/sqr/workflows/CI/badge.svg)](https://github.com/pepa65/sqr/actions)
-[![License](https://img.shields.io/github/license/pepa65/sqr)](https://github.com/pepa65/sqr/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/pepa65/sqr/blob/master/LICENSE)
 
 # sqr 0.12.5
 **Scan QR with Quircs**

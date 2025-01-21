@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 use std::time::Instant;
 
-use sqr::*;
+use dqr::*;
 
 #[derive(Debug, Clone)]
 struct ResultInfo {

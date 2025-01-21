@@ -1,23 +1,23 @@
 [package]
-name = "sqr"
-version = "0.12.5"
+name = "dqr"
+version = "0.13.0"
 edition = "2021"
 authors = ["dignifiedquire <me@dignifiedquire.com>", "github.com/pepa65"]
-description = "Scan QR with Quircs"
-repository = "https://github.com/pepa65/rqr"
-documentation = "https://docs.rs/sqr/"
+description = "Decode QR with Quircs"
+repository = "https://github.com/pepa65/dqr"
+documentation = "https://docs.rs/dqr/"
 readme = "README.md"
 license = "MIT"
-keywords = ["qr", "scanner", "decode", "cli"]
+keywords = ["qr", "decode", "cli"]
 categories = ["command-line-utilities", "computer-vision"]
 autoexamples = false
 
 [[bin]]
-name = "sqr"
-path = "examples/sqr.rs"
+name = "dqr"
+path = "examples/dqr.rs"
 
 [package.metadata.binstall]
-pkg-url = "{repo}/releases/download/{version}/sqr"
+pkg-url = "{repo}/releases/download/{version}/{name}"
 pkg-fmt = "bin"
 disabled-strategies = ["quick-install", "compile"]
 target-family = "Linux"

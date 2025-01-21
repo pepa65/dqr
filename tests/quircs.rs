@@ -1,4 +1,4 @@
-use sqr::Quirc;
+use dqr::Quirc;
 
 #[test]
 fn empty_jpeg() {
@@ -38,18 +38,18 @@ fn two_qr_codes_small(ext: &str) {
 
 	let data = res[0].decode().unwrap();
 	assert_eq!(data.version, 1);
-	assert_eq!(data.ecc_level, sqr::EccLevel::H);
+	assert_eq!(data.ecc_level, dqr::EccLevel::H);
 	assert_eq!(data.mask, 1);
-	assert_eq!(data.data_type, Some(sqr::DataType::Byte));
-	assert_eq!(data.eci, Some(sqr::Eci::Utf8));
+	assert_eq!(data.data_type, Some(dqr::DataType::Byte));
+	assert_eq!(data.eci, Some(dqr::Eci::Utf8));
 	assert_eq!(data.payload, b"Hello");
 
 	let data = res[1].decode().unwrap();
 	assert_eq!(data.version, 1);
-	assert_eq!(data.ecc_level, sqr::EccLevel::H);
+	assert_eq!(data.ecc_level, dqr::EccLevel::H);
 	assert_eq!(data.mask, 3);
-	assert_eq!(data.data_type, Some(sqr::DataType::Byte));
-	assert_eq!(data.eci, Some(sqr::Eci::Utf8));
+	assert_eq!(data.data_type, Some(dqr::DataType::Byte));
+	assert_eq!(data.eci, Some(dqr::Eci::Utf8));
 	assert_eq!(data.payload, b"World");
 }
 
@@ -72,24 +72,24 @@ fn two_qr_codes_large(ext: &str) {
 
 	let data = res[0].decode().unwrap();
 	assert_eq!(data.version, 4);
-	assert_eq!(data.ecc_level, sqr::EccLevel::M);
+	assert_eq!(data.ecc_level, dqr::EccLevel::M);
 	assert_eq!(data.mask, 2);
-	assert_eq!(data.data_type, Some(sqr::DataType::Byte));
+	assert_eq!(data.data_type, Some(dqr::DataType::Byte));
 	assert_eq!(data.eci, None);
 	assert_eq!(data.payload, b"from javascript");
 
 	let data = res[1].decode().unwrap();
 	assert_eq!(data.version, 4);
-	assert_eq!(data.ecc_level, sqr::EccLevel::M);
+	assert_eq!(data.ecc_level, dqr::EccLevel::M);
 	assert_eq!(data.mask, 2);
-	assert_eq!(data.data_type, Some(sqr::DataType::Byte));
+	assert_eq!(data.data_type, Some(dqr::DataType::Byte));
 	assert_eq!(data.eci, None);
 	assert_eq!(data.payload, b"here comes qr!");
 }
 
 #[test]
 fn generated_png() {
-	use sqr::{DataType, EccLevel};
+	use dqr::{DataType, EccLevel};
 	use std::collections::HashMap;
 	use std::path::PathBuf;
 
@@ -101,7 +101,7 @@ fn generated_png() {
 	mode_to_data.insert(DataType::Byte, b"aA1234");
 	mode_to_data.insert(DataType::Kanji, &[0x93, 0x5f, 0xe4, 0xaa]); // 点茗 in Shift-JIS
 
-	for version in sqr::VERSION_MIN..=sqr::VERSION_MAX {
+	for version in dqr::VERSION_MIN..=dqr::VERSION_MAX {
 		for ecc_level in &[EccLevel::M, EccLevel::L, EccLevel::H, EccLevel::Q] {
 			for mode in &[DataType::Numeric, DataType::Alpha, DataType::Byte, DataType::Kanji] {
 				let filename = PathBuf::from(format!(

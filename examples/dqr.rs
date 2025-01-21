@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 use std::time::Instant;
 
-use sqr::*;
+use dqr::*;
 
 #[derive(Debug, Clone)]
 struct ResultInfo {
@@ -171,7 +171,8 @@ fn dump_cells(code: &Code) {
 }
 
 fn help() {
-	println!("sqr {}\nUsage:  sqr [-h|--help] | [-v|--verbose] [-d|--dump] <image>...", version());
+	println!("{} {} - Decode QR with Quircs", env!("CARGO_PKG_NAME"), version());
+	println!("Usage:  {} [-h|--help] | [-v|--verbose] [-d|--dump] <image>...", env!("CARGO_PKG_NAME"));
 	println!("    -h/--help       Show this help text");
 	println!("    -v/--verbose    Show processing information");
 	println!("    -d/--dump       Dump each identified QR code to the terminal");
@@ -208,7 +209,7 @@ fn main() {
 		})
 		.collect();
 	if opts.verbose {
-		println!("sqr {} with Quircs library", version());
+		println!("{} {} with Quircs library", env!("CARGO_PKG_NAME"), version());
 	};
 	let res = run_tests(&opts, &args);
 	std::process::exit(res);

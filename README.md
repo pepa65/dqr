@@ -1,43 +1,47 @@
-[![Crate](https://img.shields.io/crates/v/sqr.svg?style=flat-square)](https://crates.io/crates/sqr)
-[![Downloads](https://img.shields.io/crates/d/sqr.svg?style=flat-square)](https://crates.io/crates/sqr)
-[![Docs](https://img.shields.io/badge/docs-sqr-blue.svg?style=flat-square)](https://docs.rs/crate/sqr/latest)
-[![Dependencies](https://deps.rs/repo/github/pepa65/sqr/status.svg)](https://deps.rs/repo/github/pepa65/sqr)
-[![CI](https://github.com/pepa65/sqr/workflows/CI/badge.svg)](https://github.com/pepa65/sqr/actions)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/pepa65/sqr/blob/master/LICENSE)
+[![Crate](https://img.shields.io/crates/v/dqr.svg?style=flat-square)](https://crates.io/crates/dqr)
+[![Downloads](https://img.shields.io/crates/d/dqr.svg?style=flat-square)](https://crates.io/crates/dqr)
+[![Docs](https://img.shields.io/badge/docs-dqr-blue.svg?style=flat-square)](https://docs.rs/crate/dqr/latest)
+[![Dependencies](https://deps.rs/repo/github/pepa65/dqr/status.svg)](https://deps.rs/repo/github/pepa65/dqr)
+[![CI](https://github.com/pepa65/dqr/workflows/CI/badge.svg)](https://github.com/pepa65/dqr/actions)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/pepa65/dqr/blob/master/LICENSE)
 
-# sqr 0.12.5
-**Scan QR with Quircs**
+# dqr 0.13.0
+**Decode QR with Quircs**
 
 * After: <https://github.com/dignifiedquire/quircs> which was ported from <https://github.com/dlbeer/quirc>
-* Repo: <https://github.com/pepa65/sqr>
+* Repo: <https://github.com/pepa65/dqr>
 
 ## Install
 ### Download and install static single-binary
 ```
-wget https://github.com/pepa65/sqr/releases/download/0.12.5/sqr
-sudo mv sqr /usr/local/bin
-sudo chown root:root /usr/local/bin/sqr
-sudo chmod +x /usr/local/bin/sqr
+wget https://github.com/pepa65/dqr/releases/download/0.13.0/dqr
+sudo mv dqr /usr/local/bin
+sudo chown root:root /usr/local/bin/dqr
+sudo chmod +x /usr/local/bin/dqr
 ```
 
 ## Install with cargo
 If not installed yet, install a **Rust toolchain**, see <https://www.rust-lang.org/tools/install>
 
 ### Direct from crates.io
-`cargo install sqr --example sqr`
+`cargo install dqr --example dqr`
+
+The binary `dqr` will be installed into `~/.cargo/bin/` (might need to be added to `PATH`!)
 
 ### Direct from repo
-`cargo install --git https://github.com/pepa65/sqr --example sqr`
+`cargo install --git https://github.com/pepa65/dqr --example dqr`
+
+The binary `dqr` will be installed into `~/.cargo/bin/` (might need to be added to `PATH`!)
 
 ### Static build for Linux (avoiding GLIBC incompatibilities)
 ```
-git clone https://github.com/pepa65/sqr
-cd sqr
+git clone https://github.com/pepa65/dqr
+cd dqr
 rustup target add x86_64-unknown-linux-musl
 cargo rel  # Alias defined in .cargo/config.toml
 ```
 
-The binary will be at `target/x86_64-unknown-linux-musl/release/sqr`
+The binary will be at `target/x86_64-unknown-linux-musl/release/dqr`
 
 ### Install with cargo-binstall
 Even without a full Rust toolchain, rust binaries can be installed with the static binary `cargo-binstall`:
@@ -51,14 +55,14 @@ sudo chown root:root cargo-binstall
 sudo mv cargo-binstall /usr/local/bin/
 ```
 
-Only a linux-x86_64 (musl) binary available: `cargo-binstall sqr`
+Then a linux-x86_64 (musl) binary can be installed: `cargo-binstall dqr`
 
-It will be installed in `~/.cargo/bin/` which still needs to be added to `PATH`!
+The binary `dqr` will be installed into `~/.cargo/bin/` (might need to be added to `PATH`!)
 
 ## Usage
 ```
-sqr 0.12.5
-Usage:  sqr [-h|--help] | [-v|--verbose] [-d|--dump] <image>...
+dqr 0.13.0
+Usage:  dqr [-h|--help] | [-v|--verbose] [-d|--dump] <image>...
     -h/--help       Show this help text
     -v/--verbose    Show processing information
     -d/--dump       Dump each identified QR code to the terminal

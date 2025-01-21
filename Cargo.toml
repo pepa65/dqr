@@ -1,14 +1,19 @@
 [package]
 name = "sqr"
-version = "0.12.1"
+version = "0.12.2"
 edition = "2021"
 authors = ["dignifiedquire <me@dignifiedquire.com>", "github.com/pepa65"]
 description = "Scan QR with Quircs"
 repository = "https://github.com/pepa65/rqr"
-keywords = ["qr", "scanner", "decode", "cli"]
-documentation = "https://docs.rs/quircs/"
+documentation = "https://docs.rs/sqr/"
 readme = "README.md"
 license = "MIT"
+keywords = ["qr", "scanner", "decode", "cli"]
+categories = ["command-line-utilities", "computer-vision"]
+
+[[bin]]
+name = "sqr"
+path = "examples/sqr.rs"
 
 [lib]
 crate-type = ["staticlib", "rlib"]

@@ -24,29 +24,27 @@ struct PolygonScoreData<'a> {
 	pub corners: &'a mut [Point; 4],
 }
 
-// ---  Linear algebra routines
-
+// Linear algebra routines
 fn line_intersect(p0: &Point, p1: &Point, q0: &Point, q1: &Point, r: &mut Point) -> i32 {
-	/* (a, b) is perpendicular to line p */
+	// (a, b) is perpendicular to line p
 	let a = -(p1.y - p0.y);
 	let b = p1.x - p0.x;
 
-	/* (c, d) is perpendicular to line q */
+	// (c, d) is perpendicular to line q
 	let c = -(q1.y - q0.y);
 	let d = q1.x - q0.x;
 
-	/* e and f are dot products of the respective vectors with p and q */
+	// e and f are dot products of the respective vectors with p and q
 	let e = a * p1.x + b * p1.y;
 	let f = c * q1.x + d * q1.y;
 
-	/* Now we need to solve:
-	 *     [a b] [rx]   [e]
-	 *     [c d] [ry] = [f]
-	 *
-	 * We do this by inverting the matrix and applying it to (e, f):
-	 *       [ d -b] [e]   [rx]
-	 * 1/det [-c  a] [f] = [ry]
-	 */
+	// Now solve:
+	//  [a b] [rx]   [e]
+	//  [c d] [ry] = [f]
+	//
+	// by inverting the matrix and applying it to (e, f):
+	//       [ d -b] [e]   [rx]
+	// 1/det [-c  a] [f] = [ry]
 	let det = a * d - b * c;
 	if det == 0 {
 		return 0;
@@ -98,8 +96,7 @@ fn perspective_unmap(c: &[f64; 8], in_0: &Point, u: &mut f64, v: &mut f64) {
 	*v = (c[0] * (y - c[5]) - c[2] * c[6] * y + (c[5] * c[6] - c[3]) * x + c[2] * c[3]) / den;
 }
 
-// --- Span-based floodfill routine
-
+// Span-based floodfill routine
 enum UserData<'a> {
 	Region(&'a mut Region),
 	Polygon(&'a mut PolygonScoreData<'a>),
@@ -128,7 +125,7 @@ impl<'a> From<&'a mut Quirc> for ImageMut<'a> {
 	}
 }
 
-/// Flood fill algorithm. See [wikipedia](https://en.wikipedia.org/wiki/Flood_fill) for more details.
+/// Flood fill algorithm, see [wikipedia](https://en.wikipedia.org/wiki/Flood_fill) for more details
 #[allow(clippy::too_many_arguments)]
 fn flood_fill_seed<F>(image: &mut ImageMut<'_>, starting_x: i32, starting_y: usize, from: Pixel, to: Pixel, func: Option<&F>, user_data: &mut UserData<'_>)
 where
@@ -159,11 +156,11 @@ where
 		}
 
 		// Seed new flood-fills
-
 		if y > 0 {
 			// Not the first row, so fill the previous row
 			let offset = (y - 1) * width;
-			// Two side-by-side pixels do not need two flood fills seeded, since the first flood file will scan to the right and cover the second one.
+			// Two side-by-side pixels do not need two flood fills seeded,
+			// since the first flood file will scan to the right and cover the second one.
 			// Keeping track of whether the previous pixel matched lets those unnecessary side-by-side flood fills to be skipped.
 			let mut prev_matched = false;
 			for i in left..=right {
@@ -202,8 +199,7 @@ where
 	}
 }
 
-// --- Adaptive thresholding
-
+// Adaptive thresholding
 fn otsu(q: &Quirc, image: &[u8]) -> u8 {
 	let num_pixels = q.w * q.h;
 
@@ -331,8 +327,7 @@ fn find_region_corners(image: &mut ImageMut<'_>, region: &Region, rcode: Pixel, 
 	flood_fill_seed(image, region.seed.x, region.seed.y as usize, rcode, 1, Some(&find_one_corner), &mut psd_ref);
 	let psd = psd_ref.into_polygon();
 
-	// Safe to unwrap, because the only reference was given to the call
-	// to flood_fill_seed above.
+	// Safe to unwrap, because the only reference was given to the call to flood_fill_seed above.
 	psd.ref_0.x = psd.corners[0].x - psd.ref_0.x;
 	psd.ref_0.y = psd.corners[0].y - psd.ref_0.y;
 	for corner in &mut psd.corners[..] {
@@ -363,12 +358,12 @@ fn record_capstone(image: &mut ImageMut<'_>, regions: &mut [Region], capstones: 
 	regions[stone as usize].capstone = cs_index;
 	regions[ring as usize].capstone = cs_index;
 
-	/* Find the corners of the ring */
+	// Find the corners of the ring
 	let region = &regions[ring as usize];
 	let seed = &regions[stone as usize].seed;
 	find_region_corners(image, region, ring, seed, &mut capstone.corners);
 
-	/* Set up the perspective transform and find the center */
+	// Set up the perspective transform and find the center
 	perspective_setup(&mut capstone.c, &capstone.corners, 7.0, 7.0);
 	perspective_map(&capstone.c, 3.5, 3.5, &mut capstone.center);
 }
@@ -380,22 +375,22 @@ fn test_capstone(image: &mut ImageMut<'_>, regions: &mut Vec<Region>, capstones:
 	if ring_left < 0 || ring_right < 0 || stone < 0 {
 		return;
 	}
-	/* Left and ring of ring should be connected */
+	// Left and ring of ring should be connected
 	if ring_left != ring_right {
 		return;
 	}
-	/* Ring should be disconnected from stone */
+	// Ring should be disconnected from stone
 	if ring_left == stone {
 		return;
 	}
 	let stone_reg = &regions[stone as usize];
 	let ring_reg = &regions[ring_left as usize];
 
-	/* Already detected */
+	// Already detected
 	if stone_reg.capstone >= 0 || ring_reg.capstone >= 0 {
 		return;
 	}
-	/* Ratio should ideally be 37.5 */
+	// Ratio should ideally be 37.5
 	let ratio = stone_reg.count * 100 / ring_reg.count;
 	if !(10..=70).contains(&ratio) {
 		return;
@@ -459,22 +454,18 @@ fn find_alignment_pattern(image: &mut ImageMut<'_>, capstones: &[Capstone], regi
 	let mut u = 0.;
 	let mut v = 0.;
 
-	/* Grab our previous estimate of the alignment pattern corner */
+	// Grab our previous estimate of the alignment pattern corner
 	let mut b = qr.align;
 
-	/* Guess another two corners of the alignment pattern so that we
-	 * can estimate its size.
-	 */
+	// Guess another two corners of the alignment pattern so that we can estimate its size.
 	perspective_unmap(&c0.c, &b, &mut u, &mut v);
 	perspective_map(&c0.c, u, v + 1.0f64, &mut a);
 	perspective_unmap(&c2.c, &b, &mut u, &mut v);
 	perspective_map(&c2.c, u + 1.0f64, v, &mut c);
 	let size_estimate = ((a.x - b.x) * -(c.y - b.y) + (a.y - b.y) * (c.x - b.x)).abs();
 
-	/* Spiral outwards from the estimate point until we find something
-	 * roughly the right size. Don't look too far from the estimate
-	 * point.
-	 */
+	// Spiral outwards from the estimate point until we find something
+	// roughly the right size. Don't look too far from the estimate point.
 	static DX_MAP: [i32; 4] = [1, 0, -1, 0];
 	static DY_MAP: [i32; 4] = [0, -1, 0, 1];
 
@@ -516,8 +507,7 @@ fn find_leftmost_to_line(user_data: &mut UserData<'_>, y: usize, left: i32, righ
 	}
 }
 
-/// Do a Bresenham scan from one point to another and count the number
-/// of black/white transitions.
+/// Do a Bresenham scan from one point to another and count the number of black/white transitions.
 fn timing_scan(image: &Image<'_>, p0: &Point, p1: &Point) -> i32 {
 	let mut n = p1.x - p0.x;
 	let mut d = p1.y - p0.y;
@@ -614,12 +604,12 @@ fn measure_timing_pattern(qr: &mut Grid, capstones: &[Capstone], image: &Image<'
 		scan = qr.vscan
 	}
 
-	/* If neither scan worked, we can't go any further. */
+	// If neither scan worked, we can't go any further
 	if scan < 0 {
 		return -1;
 	}
 
-	/* Choose the nearest allowable grid size */
+	// Choose the nearest allowable grid size
 	let size = scan * 2 + 13;
 	let ver = (size - 15) / 4;
 	qr.grid_size = ver * 4 + 17;
@@ -627,9 +617,8 @@ fn measure_timing_pattern(qr: &mut Grid, capstones: &[Capstone], image: &Image<'
 	0
 }
 
-/// Read a cell from a grid using the currently set perspective
-/// transform. Returns +/- 1 for black/white, 0 for cells which are
-/// out of image bounds.
+/// Read a cell from a grid using the currently set perspective transform.
+/// Returns +/- 1 for black/white, 0 for cells which are out of image bounds.
 fn read_cell(q: &Quirc, index: usize, x: i32, y: i32) -> i32 {
 	let qr = &q.grids[index];
 
@@ -715,22 +704,21 @@ fn fitness_capstone(qr: &Grid, image: &Image<'_>, mut x: i32, mut y: i32) -> i32
 
 const MAX_ALIGNMENT: usize = 7;
 
-/// Compute a fitness score for the currently configured perspective
-/// transform, using the features we expect to find by scanning the
-/// grid.
+/// Compute a fitness score for the currently configured perspective transform,
+/// using the features we expect to find by scanning the grid.
 fn fitness_all(qr: &Grid, image: &Image<'_>) -> i32 {
 	let version = usize::try_from((qr.grid_size - 17) / 4).expect("invalid version");
 	let info = &VERSION_DB[version];
 	let mut score: i32 = 0;
 
-	/* Check the timing pattern */
+	// Check the timing pattern
 	for i in 0..qr.grid_size - 14 {
 		let expect = if i & 1 != 0 { 1 } else { -1 };
 		score += fitness_cell(qr, image, i + 7, 6) * expect;
 		score += fitness_cell(qr, image, 6, i + 7) * expect;
 	}
 
-	/* Check capstones */
+	// Check capstones
 	score += fitness_capstone(qr, image, 0, 0);
 	score += fitness_capstone(qr, image, qr.grid_size - 7, 0);
 	score += fitness_capstone(qr, image, 0, qr.grid_size - 7);
@@ -738,7 +726,7 @@ fn fitness_all(qr: &Grid, image: &Image<'_>) -> i32 {
 		return score;
 	}
 
-	/* Check alignment patterns */
+	// Check alignment patterns
 	let mut ap_count = 0;
 	while ap_count < MAX_ALIGNMENT && info.apat[ap_count] != 0 {
 		ap_count += 1;
@@ -791,11 +779,10 @@ fn jiggle_perspective(qr: &mut Grid, image: &Image<'_>) {
 	}
 }
 
-/// Once the capstones are in place and an alignment point has been
-/// chosen, we call this function to set up a grid-reading perspective
-/// transform.
+/// Once the capstones are in place and an alignment point has been chosen,
+/// we call this function to set up a grid-reading perspective transform.
 fn setup_qr_perspective(qr: &mut Grid, capstones: &[Capstone], image: &Image<'_>) {
-	/* Set up the perspective map for reading the grid */
+	// Set up the perspective map for reading the grid
 	let rect = [capstones[qr.caps[1]].corners[0], capstones[qr.caps[2]].corners[0], qr.align, capstones[qr.caps[0]].corners[0]];
 
 	perspective_setup(&mut qr.c, &rect, (qr.grid_size - 7) as f64, (qr.grid_size - 7) as f64);
@@ -803,8 +790,7 @@ fn setup_qr_perspective(qr: &mut Grid, capstones: &[Capstone], image: &Image<'_>
 	jiggle_perspective(qr, image);
 }
 
-/// Rotate the capstone with so that corner 0 is the leftmost with respect
-/// to the given reference line.
+/// Rotate the capstone with so that corner 0 is the leftmost with respect to the given reference line.
 fn rotate_capstone(cap: &mut Capstone, h0: &Point, hd: &Point) {
 	let mut copy: [Point; 4] = [Point::default(); 4];
 	let mut best = 0;
@@ -818,7 +804,7 @@ fn rotate_capstone(cap: &mut Capstone, h0: &Point, hd: &Point) {
 		}
 	}
 
-	/* Rotate the capstone */
+	// Rotate the capstone
 	for (i, copy) in copy.iter_mut().enumerate() {
 		*copy = cap.corners[(i + best) % 4];
 	}
@@ -833,19 +819,17 @@ fn record_qr_grid(
 	if grids.len() >= 8 {
 		return;
 	}
-	/* Construct the hypotenuse line from A to C. B should be to
-	 * the left of this line.
-	 */
+	// Construct the hypotenuse line from A to C. B should be to the left of this line
 	let h0 = capstones[a].center;
 	let mut hd = Point { x: capstones[c].center.x - capstones[a].center.x, y: capstones[c].center.y - capstones[a].center.y };
 
-	/* Make sure A-B-C is clockwise */
+	// Make sure A-B-C is clockwise
 	if (capstones[b].center.x - h0.x) * -hd.y + (capstones[b].center.y - h0.y) * hd.x > 0 {
 		std::mem::swap(&mut a, &mut c);
 		hd.x = -hd.x;
 		hd.y = -hd.y
 	}
-	/* Record the grid and its components */
+	// Record the grid and its components
 	let qr_index = grids.len();
 
 	let mut qr = Grid::default();
@@ -857,34 +841,26 @@ fn record_qr_grid(
 
 	let qr = &mut grids[qr_index];
 
-	/* Rotate each capstone so that corner 0 is top-left with respect
-	 * to the grid.
-	 */
+	// Rotate each capstone so that corner 0 is top-left with respect to the grid
 	for cap_index in &qr.caps {
 		let cap = &mut capstones[*cap_index];
 		rotate_capstone(cap, &h0, &hd);
 		cap.qr_grid = qr_index as i32;
 	}
 
-	/* Check the timing pattern. This doesn't require a perspective
-	 * transform.
-	 */
+	// Check the timing pattern. This doesn't require a perspective transform
 	if measure_timing_pattern(qr, capstones, &Image::from(&*image)) >= 0 {
-		/* Make an estimate based for the alignment pattern based on extending
-		 * lines from capstones A and C.
-		 */
+		// Make an estimate based for the alignment pattern based on extending lines from capstones A and C
 		if line_intersect(&capstones[a].corners[0], &capstones[a].corners[1], &capstones[c].corners[0], &capstones[c].corners[3], &mut qr.align) != 0 {
-			/* On V2+ grids, we should use the alignment pattern. */
+			// On V2+ grids, we should use the alignment pattern
 			if qr.grid_size > 21 {
-				/* Try to find the actual location of the alignment pattern. */
+				// Try to find the actual location of the alignment pattern
 				find_alignment_pattern(image, capstones, regions, qr);
-				/* Find the point of the alignment pattern closest to the
-				 * top-left of the QR grid.
-				 */
+				// Find the point of the alignment pattern closest to the top-left of the QR grid
 				if let Some(align_region) = qr.align_region {
 					let reg = &regions[align_region as usize];
 
-					/* Start from some point inside the alignment pattern */
+					// Start from some point inside the alignment pattern
 					qr.align = reg.seed;
 
 					let mut corners = [qr.align, Point::default(), Point::default(), Point::default()];
@@ -910,9 +886,7 @@ fn record_qr_grid(
 		}
 	}
 
-	/* We've been unable to complete setup for this grid. Undo what we've
-	 * recorded and pretend it never happened.
-	 */
+	// We've been unable to complete setup for this grid. Undo what we've recorded and pretend it never happened
 	for cap_index in &qr.caps {
 		capstones[*cap_index].qr_grid = -1;
 	}
@@ -928,7 +902,7 @@ fn test_neighbours(
 	let mut best_h = -1;
 	let mut best_v = -1;
 
-	/* Test each possible grouping */
+	// Test each possible grouping
 	for hn in &hlist.n[..hlist.count] {
 		for vn in &vlist.n[0..vlist.count] {
 			let score = (1.0 - hn.distance / vn.distance).abs();
@@ -963,9 +937,7 @@ fn test_grouping(image: &mut ImageMut<'_>, regions: &mut Vec<Region>, capstones:
 	hlist.count = 0;
 	vlist.count = 0;
 
-	/* Look for potential neighbours by examining the relative gradients
-	 * from this capstone to others.
-	 */
+	// Look for potential neighbours by examining the relative gradients from this capstone to others
 	let c1c = capstones[i].c;
 	for (j, c2) in capstones.iter_mut().enumerate() {
 		let mut u = 0.;
@@ -1013,8 +985,7 @@ fn pixels_setup(q: &mut Quirc, source: &[u8], threshold: u8) {
 
 impl Quirc {
 	/// These functions are used to process images for QR-code recognition.
-	/// The locations and content of each
-	/// code may be obtained using accessor functions described below.
+	/// The locations and content of each code may be obtained using accessor functions described below.
 	pub fn identify<'a>(&'a mut self, width: usize, height: usize, image: &[u8]) -> CodeIter<'a> {
 		self.resize(width, height);
 

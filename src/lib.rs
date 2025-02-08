@@ -1,7 +1,6 @@
 //! QR Scanner in Rust. Ported from [quirc](https://github.com/dlbeer/quirc).
 //!
 //! ## Example
-//!
 //! ```
 //! // open the image from disk
 //! let img = image::open("tests/data/Hello+World.png").expect("failed to open image");

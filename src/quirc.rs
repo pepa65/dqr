@@ -111,7 +111,7 @@ pub struct Region {
 
 /// This structure is used to return information about detected QR codes
 /// in the input image.
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct Code {
 	/// The four corners of the QR-code, from top left, clockwise
 	pub corners: [Point; 4],
@@ -120,8 +120,8 @@ pub struct Code {
 	/// at (x, y) is black, then the following bit is set:
 	/// ```ignore
 	///     cell_bitmap[i >> 3] & (1 << (i & 7))
+	///     // where i = (y * size) + x.
 	/// ```
-	/// where i = (y * size) + x.
 	pub size: i32,
 	pub cell_bitmap: [u8; 3917],
 }
@@ -166,7 +166,7 @@ pub fn version() -> String {
 	env!("CARGO_PKG_VERSION").to_string()
 }
 
-/// QR-code ECC types.
+/// QR-code ECC types
 #[derive(Debug, Copy, Clone, FromPrimitive, ToPrimitive, PartialEq, Eq, Hash)]
 pub enum EccLevel {
 	M = 0,
@@ -182,7 +182,7 @@ impl Default for EccLevel {
 	}
 }
 
-/// QR-code data types.
+/// QR-code data types
 #[derive(Debug, Copy, Clone, FromPrimitive, ToPrimitive, PartialEq, Eq, Hash)]
 #[repr(i32)]
 pub enum DataType {

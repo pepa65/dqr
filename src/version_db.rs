@@ -4,11 +4,11 @@ pub const VERSION_MAX: usize = 40;
 /// QR-code version information database
 #[derive(Debug, Clone, Default)]
 pub struct RsParams {
-	/// Small block size.
+	/// Small block size
 	pub bs: i32,
-	/// Small data words.
+	/// Small data words
 	pub dw: i32,
-	/// Number of small blocks.
+	/// Number of small blocks
 	pub ns: i32,
 }
 

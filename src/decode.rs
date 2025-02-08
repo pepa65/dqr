@@ -15,7 +15,7 @@ struct Datastream {
 	data: [u8; 8896],
 }
 
-/// Galois Field.
+/// Galois Field
 #[derive(Copy, Clone)]
 struct GaloisField {
 	p: i32,
@@ -55,8 +55,7 @@ static GF256_LOG: [u8; 256] = [
 
 static GF256: GaloisField = GaloisField { p: 255, log: &GF256_LOG, exp: &GF256_EXP };
 
-// -- Polynomial operations
-
+/// Polynomial operations
 fn poly_add(dst: &mut [u8], src: &[u8], c: u8, shift: i32, gf: &GaloisField) {
 	if c == 0 {
 		return;
@@ -96,7 +95,7 @@ fn poly_eval(s: &[u8], x: u8, gf: &GaloisField) -> u8 {
 	sum
 }
 
-/// Berlekamp-Massey algorithm for finding error locator polynomials.
+/// Berlekamp-Massey algorithm for finding error locator polynomials
 #[allow(non_snake_case)]
 fn berlekamp_massey(s: &[u8], n: usize, gf: &GaloisField, sigma: &mut [u8]) {
 	let mut C: [u8; 64] = [0; 64];
@@ -141,7 +140,6 @@ fn berlekamp_massey(s: &[u8], n: usize, gf: &GaloisField, sigma: &mut [u8]) {
 }
 
 /// Code stream error correction
-///
 /// Generator polynomial for GF(2^8) is x^8 + x^4 + x^3 + x^2 + 1
 fn block_syndromes(data: &[u8], bs: i32, npar: usize, s: &mut [u8]) -> i32 {
 	for val in s.iter_mut().take(64) {
@@ -198,21 +196,21 @@ fn correct_block(data: &mut [u8], ecc: &RsParams) -> Result<(), DecodeError> {
 	let mut sigma: [u8; 64] = [0; 64];
 	let mut sigma_deriv: [u8; 64] = [0; 64];
 	let mut omega: [u8; 64] = [0; 64];
-	/* Compute syndrome vector */
+	// Compute syndrome vector
 	if block_syndromes(data, ecc.bs, npar, &mut s) == 0 {
 		return Ok(());
 	}
 	berlekamp_massey(&s, npar, &GF256, &mut sigma);
-	/* Compute derivative of sigma */
+	// Compute derivative of sigma
 	let mut i = 0;
 	while i + 1 < 64 {
 		sigma_deriv[i as usize] = sigma[(i + 1) as usize];
 		i += 2
 	}
-	/* Compute error evaluator polynomial */
+	// Compute error evaluator polynomial
 	eloc_poly(&mut omega, &s, &sigma, npar - 1);
 
-	/* Find error locations and magnitudes */
+	// Find error locations and magnitudes
 	i = 0;
 	while i < ecc.bs {
 		let xinv = GF256_EXP[(255 - i) as usize];
@@ -260,15 +258,13 @@ fn correct_format(f_ret: &mut u16) -> Result<(), DecodeError> {
 	let mut s: [u8; 64] = [0; 64];
 	let mut sigma: [u8; 64] = [0; 64];
 
-	/* Evaluate U (received codeword) at each of alpha_1 .. alpha_6
-	 * to get S_1 .. S_6 (but we index them from 0).
-	 */
+	// Evaluate U (received codeword) at each of alpha_1 .. alpha_6 to get S_1 .. S_6 (but we index them from 0)
 	if format_syndromes(u, &mut s) == 0 {
 		return Ok(());
 	}
 	berlekamp_massey(&s, 3 * 2, &GF16, &mut sigma);
 
-	/* Now, find the roots of the polynomial */
+	// Now, find the roots of the polynomial
 	for i in 0..15 {
 		if poly_eval(&sigma, GF16_EXP[(15 - i) as usize], &GF16) == 0 {
 			u ^= (1 << i) as u16;
@@ -336,26 +332,24 @@ fn reserved_cell(version: usize, i: i32, j: i32) -> i32 {
 	let size = version as i32 * 4 + 17;
 	let mut ai: i32 = -1;
 	let mut aj: i32 = -1;
-	/* Finder + format: top left */
+	// Finder + format: top left
 	if i < 9 && j < 9 {
 		return 1;
 	}
-	/* Finder + format: bottom left */
+	// Finder + format: bottom left
 	if i + 8 >= size && j < 9 {
 		return 1;
 	}
-	/* Finder + format: top right */
+	// Finder + format: top right
 	if i < 9 && j + 8 >= size {
 		return 1;
 	}
-	/* Exclude timing patterns */
+	// Exclude timing patterns
 	if i == 6 || j == 6 {
 		return 1;
 	}
-	/* Exclude version info, if it exists. Version info sits adjacent to
-	 * the top-right and bottom-left finders in three rows, bounded by
-	 * the timing pattern.
-	 */
+	// Exclude version info, if it exists. Version info sits adjacent to
+	// the top-right and bottom-left finders in three rows, bounded by the timing pattern
 	if version >= 7 {
 		if i < 6 && j + 11 >= size {
 			return 1;
@@ -364,7 +358,7 @@ fn reserved_cell(version: usize, i: i32, j: i32) -> i32 {
 			return 1;
 		}
 	}
-	/* Exclude alignment patterns */
+	// Exclude alignment patterns
 	let mut a = 0;
 	while a < 7 && ver.apat[a as usize] != 0 {
 		let p: i32 = ver.apat[a as usize];
@@ -609,10 +603,10 @@ fn decode_kanji(data: &mut Data, ds: &mut Datastream) -> Result<(), DecodeError>
 		let lsb = d % 0xc0;
 		let intermediate = msb << 8 | lsb;
 		let sjw = if intermediate + 0x8140 <= 0x9ffc {
-			/* bytes are in the range 0x8140 to 0x9FFC */
+			// bytes are in the range 0x8140 to 0x9FFC
 			(intermediate + 0x8140) as u16
 		} else {
-			/* bytes are in the range 0xE040 to 0xEBBF */
+			// bytes are in the range 0xE040 to 0xEBBF
 			(intermediate + 0xc140) as u16
 		};
 
@@ -668,10 +662,10 @@ fn decode_payload(data: &mut Data, ds: &mut Datastream) -> Result<(), DecodeErro
 }
 
 impl Code {
-	/// Decode a QR-code, returning the payload data.
+	/// Decode a QR-code, returning the payload data
 	pub fn decode(&self) -> Result<Data, DecodeError> {
 		let mut ds: Datastream = Datastream { raw: [0; 8896], data_bits: 0, ptr: 0, data: [0; 8896] };
-
+		//println!("{:#?}\nsize:{}", self.corners, self.size);
 		if (self.size - 17) % 4 != 0 {
 			return Err(DecodeError::InvalidGridSize);
 		}
@@ -682,7 +676,7 @@ impl Code {
 			return Err(DecodeError::InvalidVersion);
 		}
 
-		/* Read format information -- try both locations */
+		// Read format information -- try both locations
 		let mut res = read_format(self, &mut data, 0);
 		if res.is_err() {
 			res = read_format(self, &mut data, 1);

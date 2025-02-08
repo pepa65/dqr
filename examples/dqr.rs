@@ -20,9 +20,9 @@ struct Opts {
 }
 
 fn print_result(name: &str, info: &mut ResultInfo) {
-	print!("-------------------------------------------------------------------------------");
+	print!("----------------------------------------------------------------------");
 	print!(
-		"{}: {} files, {} codes, {} decoded, ({} failures)",
+		"{}: {:2} files, {:2} codes, {:2} decoded, ({} failures)",
 		name,
 		info.file_count,
 		info.id_count,
@@ -33,10 +33,10 @@ fn print_result(name: &str, info: &mut ResultInfo) {
 		print!(", {}% success rate", (info.decode_count * 100 + info.id_count / 2) / info.id_count,);
 	}
 	println!();
-	println!("Total time: load:{} identify:{} total:{}", info.load_time, info.identify_time, info.total_time,);
+	println!("Total time:  load: {} identify: {} total: {}", info.load_time, info.identify_time, info.total_time,);
 	if info.file_count != 0 {
 		println!(
-			"Average time: load:{} identify:{} total:{}",
+			"Average time:  load: {} identify: {} total: {}",
 			info.load_time.wrapping_div(info.file_count as u128),
 			info.identify_time.wrapping_div(info.file_count as u128),
 			info.total_time.wrapping_div(info.file_count as u128),
@@ -174,7 +174,7 @@ fn help() {
 	println!("{} {} - Decode QR with Quircs", env!("CARGO_PKG_NAME"), version());
 	println!("Usage:  {} [-h|--help] | [-v|--verbose] [-d|--dump] <image>...", env!("CARGO_PKG_NAME"));
 	println!("    -h/--help       Show this help text");
-	println!("    -v/--verbose    Show processing information");
+	println!("    -v/--verbose    how additional information on each QR");
 	println!("    -d/--dump       Dump each identified QR code to the terminal");
 	std::process::exit(0);
 }
@@ -209,8 +209,11 @@ fn main() {
 		})
 		.collect();
 	if opts.verbose {
-		println!("{} {} with Quircs library", env!("CARGO_PKG_NAME"), version());
+		println!("{} {} - Decode Qr with Quircs", env!("CARGO_PKG_NAME"), version());
 	};
+	if args.is_empty() {
+		help();
+	}
 	let res = run_tests(&opts, &args);
 	std::process::exit(res);
 }

@@ -5,7 +5,7 @@
 [![CI](https://github.com/pepa65/dqr/workflows/CI/badge.svg)](https://github.com/pepa65/dqr/actions)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/pepa65/dqr/blob/master/LICENSE)
 
-# dqr 0.13.0
+# dqr 0.14.0
 **Decode QR with Quircs**
 
 * After: <https://github.com/dignifiedquire/quircs> which was ported from <https://github.com/dlbeer/quirc>
@@ -14,7 +14,7 @@
 ## Install
 ### Download and install static single-binary
 ```
-wget https://github.com/pepa65/dqr/releases/download/0.13.0/dqr
+wget https://github.com/pepa65/dqr/releases/download/0.14.0/dqr
 sudo mv dqr /usr/local/bin
 sudo chown root:root /usr/local/bin/dqr
 sudo chmod +x /usr/local/bin/dqr
@@ -61,9 +61,9 @@ The binary `dqr` will be installed into `~/.cargo/bin/` (might need to be added 
 
 ## Usage
 ```
-dqr 0.13.0
+dqr 0.14.0
 Usage:  dqr [-h|--help] | [-v|--verbose] [-d|--dump] <image>...
     -h/--help       Show this help text
-    -v/--verbose    Show processing information
+    -v/--verbose    Show additional information on each QR
     -d/--dump       Dump each identified QR code to the terminal
 ```

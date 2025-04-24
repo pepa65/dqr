@@ -629,11 +629,7 @@ fn read_cell(q: &Quirc, index: usize, x: i32, y: i32) -> i32 {
 		return 0;
 	}
 
-	if q.pixels[(p.y * q.w as i32 + p.x) as usize] != 0 {
-		1
-	} else {
-		-1
-	}
+	if q.pixels[(p.y * q.w as i32 + p.x) as usize] != 0 { 1 } else { -1 }
 }
 
 #[derive(Debug)]
@@ -766,11 +762,7 @@ fn jiggle_perspective(qr: &mut Grid, image: &Image<'_>) {
 			qr.c[j] = if i & 1 != 0 { old + step } else { old - step };
 
 			let test = fitness_all(qr, image);
-			if test > best {
-				best = test
-			} else {
-				qr.c[j] = old
-			}
+			if test > best { best = test } else { qr.c[j] = old }
 		}
 
 		for val in &mut adjustments {

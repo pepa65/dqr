@@ -3,9 +3,9 @@
 use num_traits::{FromPrimitive, ToPrimitive};
 use std::convert::TryFrom;
 
+use crate::DecodeError;
 use crate::quirc::*;
 use crate::version_db::*;
-use crate::DecodeError;
 
 #[derive(Copy, Clone)]
 struct Datastream {

@@ -248,7 +248,7 @@ fn otsu(q: &Quirc, image: &[u8]) -> u8 {
 }
 
 fn area_count(user_data: &mut UserData<'_>, _y: usize, left: i32, right: i32) {
-	if let UserData::Region(ref mut region) = user_data {
+	if let UserData::Region(region) = user_data {
 		region.count += right - left + 1;
 	} else {
 		panic!("invalid user data");
@@ -280,7 +280,7 @@ fn region_code(image: &mut ImageMut<'_>, regions: &mut Vec<Region>, x: i32, y: u
 }
 
 fn find_one_corner(user_data: &mut UserData<'_>, y: usize, left: i32, right: i32) {
-	if let UserData::Polygon(ref mut psd) = user_data {
+	if let UserData::Polygon(psd) = user_data {
 		let xs: [i32; 2] = [left, right];
 		let dy = y as i32 - psd.ref_0.y;
 
@@ -299,7 +299,7 @@ fn find_one_corner(user_data: &mut UserData<'_>, y: usize, left: i32, right: i32
 }
 
 fn find_other_corners(user_data: &mut UserData<'_>, y: usize, left: i32, right: i32) {
-	if let UserData::Polygon(ref mut psd) = user_data {
+	if let UserData::Polygon(psd) = user_data {
 		let xs: [i32; 2] = [left, right];
 
 		for x in &xs {
@@ -491,7 +491,7 @@ fn find_alignment_pattern(image: &mut ImageMut<'_>, capstones: &[Capstone], regi
 }
 
 fn find_leftmost_to_line(user_data: &mut UserData<'_>, y: usize, left: i32, right: i32) {
-	if let UserData::Polygon(ref mut psd) = user_data {
+	if let UserData::Polygon(psd) = user_data {
 		let xs: [i32; 2] = [left, right];
 
 		for x in &xs {

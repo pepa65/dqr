@@ -1,11 +1,11 @@
-[![Crate](https://img.shields.io/crates/v/dqr.svg?style=flat-square)](https://crates.io/crates/dqr)
-[![Downloads](https://img.shields.io/crates/d/dqr.svg?style=flat-square)](https://crates.io/crates/dqr)
-[![Docs](https://img.shields.io/badge/docs-dqr-blue.svg?style=flat-square)](https://docs.rs/crate/dqr/latest)
-[![Dependencies](https://deps.rs/repo/github/pepa65/dqr/status.svg)](https://deps.rs/repo/github/pepa65/dqr)
-[![CI](https://github.com/pepa65/dqr/workflows/CI/badge.svg)](https://github.com/pepa65/dqr/actions)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/pepa65/dqr/blob/master/LICENSE)
+[![version](https://img.shields.io/crates/v/dqr.svg)](https://crates.io/crates/dqr)
+[![build](https://github.com/pepa65/dqr/actions/workflows/ci.yml/badge.svg)](https://github.com/pepa65/dqr/actions/workflows/ci.yml)
+[![dependencies](https://deps.rs/repo/github/pepa65/dqr/status.svg)](https://deps.rs/repo/github/pepa65/dqr)
+[![docs](https://img.shields.io/badge/docs-dqr-blue.svg)](https://docs.rs/crate/dqr/latest)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pepa65/dqr/blob/master/LICENSE)
+[![downloads](https://img.shields.io/crates/d/dqr.svg)](https://crates.io/crates/dqr)
 
-# dqr 0.14.14
+# dqr 0.14.15
 **Decode QR with Quircs**
 
 * After: <https://github.com/dignifiedquire/quircs> which was ported from <https://github.com/dlbeer/quirc>
@@ -14,7 +14,7 @@
 ## Install
 ### Download and install static single-binary
 ```
-wget https://github.com/pepa65/dqr/releases/download/0.14.14/dqr
+wget https://github.com/pepa65/dqr/releases/download/0.14.15/dqr
 sudo mv dqr /usr/local/bin
 sudo chown root:root /usr/local/bin/dqr
 sudo chmod +x /usr/local/bin/dqr
@@ -61,7 +61,7 @@ The binary `dqr` will be installed into `~/.cargo/bin/` (might need to be added 
 
 ## Usage
 ```
-dqr 0.14.14
+dqr 0.14.15
 Usage:  dqr [-h|--help] | [-v|--verbose] [-d|--dump] <image>...
     -h/--help       Show this help text
     -v/--verbose    Show additional information on each QR

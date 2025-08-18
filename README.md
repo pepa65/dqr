@@ -5,7 +5,7 @@
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pepa65/dqr/blob/master/LICENSE)
 [![downloads](https://img.shields.io/crates/d/dqr.svg)](https://crates.io/crates/dqr)
 
-# dqr 0.14.21
+# dqr 0.14.22
 **Decode QR with Quircs**
 
 * After: <https://github.com/dignifiedquire/quircs> which was ported from <https://github.com/dlbeer/quirc>
@@ -14,7 +14,7 @@
 ## Install
 ### Download and install static single-binary
 ```
-wget https://github.com/pepa65/dqr/releases/download/0.14.21/dqr
+wget https://github.com/pepa65/dqr/releases/download/0.14.22/dqr
 sudo mv dqr /usr/local/bin
 sudo chown root:root /usr/local/bin/dqr
 sudo chmod +x /usr/local/bin/dqr
@@ -61,7 +61,7 @@ The binary `dqr` will be installed into `~/.cargo/bin/` (might need to be added 
 
 ## Usage
 ```
-dqr 0.14.21
+dqr 0.14.22
 Usage:  dqr [-h|--help] | [-v|--verbose] [-d|--dump] <image>...
     -h/--help       Show this help text
     -v/--verbose    Show additional information on each QR

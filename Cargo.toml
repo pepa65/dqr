@@ -1,6 +1,6 @@
 [package]
 name = "dqr"
-version = "0.14.26"
+version = "0.14.27"
 edition = "2024"
 authors = ["dignifiedquire <me@dignifiedquire.com>", "github.com/pepa65"]
 description = "Decode QR with Quircs"

@@ -6,7 +6,7 @@
 [![downloads](https://img.shields.io/crates/d/dqr.svg)](https://crates.io/crates/dqr)
 
 # dqr 0.14.58
-**Decode QR with Quircs**
+**Decode QR with Quircs on CLI**
 
 * After: <https://github.com/dignifiedquire/quircs> which was ported from <https://github.com/dlbeer/quirc>
 * Repo: <https://github.com/pepa65/dqr>

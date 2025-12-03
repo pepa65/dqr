@@ -83,12 +83,7 @@ fn scan_file(decoder: &mut Quirc, opts: &Opts, path: &str, info: &mut ResultInfo
 
 	info.total_time = total_start.elapsed().as_millis();
 	if opts.verbose {
-		println!(
-			"= {} (found: {}  decoded: {})",
-			path.file_name().unwrap().to_string_lossy(),
-			info.id_count,
-			info.decode_count,
-		);
+		println!("= {} (found: {}  decoded: {})", path.file_name().unwrap().to_string_lossy(), info.id_count, info.decode_count,);
 	};
 	for code in &res {
 		if opts.cell_dump {

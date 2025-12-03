@@ -83,13 +83,9 @@ fn scan_file(decoder: &mut Quirc, opts: &Opts, path: &str, info: &mut ResultInfo
 
 	info.total_time = total_start.elapsed().as_millis();
 	if opts.verbose {
-		//        println!("  {:<30}  {:<5} {:<5} {:<5} {:<5} {:<5}",
 		println!(
 			"= {} (found: {}  decoded: {})",
 			path.file_name().unwrap().to_string_lossy(),
-			//            info.load_time,
-			//            info.identify_time,
-			//            info.total_time,
 			info.id_count,
 			info.decode_count,
 		);
@@ -171,7 +167,7 @@ fn dump_cells(code: &Code) {
 }
 
 fn help() {
-	println!("{} {} - Decode QR with Quircs", env!("CARGO_PKG_NAME"), version());
+	println!("{} {} - Decode QR with Quircs on CLI", env!("CARGO_PKG_NAME"), version());
 	println!("Usage:  {} [-h|--help] | [-v|--verbose] [-d|--dump] <image>...", env!("CARGO_PKG_NAME"));
 	println!("    -h/--help       Show this help text");
 	println!("    -v/--verbose    how additional information on each QR");
@@ -209,7 +205,7 @@ fn main() {
 		})
 		.collect();
 	if opts.verbose {
-		println!("{} {} - Decode Qr with Quircs", env!("CARGO_PKG_NAME"), version());
+		println!("{} {} - Decode QR with Quircs on CLI", env!("CARGO_PKG_NAME"), version());
 	};
 	if args.is_empty() {
 		help();

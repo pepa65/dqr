@@ -29,8 +29,8 @@ fn print_result(name: &str, info: &mut ResultInfo) {
 		info.decode_count,
 		info.id_count - info.decode_count,
 	);
-	if info.id_count != 0 {
-		print!(", {}% success rate", (info.decode_count * 100 + info.id_count / 2) / info.id_count,);
+	if let Some(res) = (info.decode_count * 100 + info.id_count / 2).checked_div(info.id_count) {
+		print!(", {res}% success rate");
 	}
 	println!();
 	println!("Total time:  load: {} identify: {} total: {}", info.load_time, info.identify_time, info.total_time,);

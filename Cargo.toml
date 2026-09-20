@@ -2,6 +2,7 @@
 name = "dqr"
 version = "0.15.4"
 edition = "2024"
+rust-version = "1.88"
 authors = ["dignifiedquire <me@dignifiedquire.com>", "github.com/pepa65"]
 description = "Decode QR with Quircs on CLI"
 repository = "https://github.com/pepa65/dqr"
